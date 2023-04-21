@@ -1,0 +1,50 @@
+{% set app_ruta = app.request.attributes.get('_route')  %}
+{% set nombre_categ = app.request.attributes.get('categoria')  %}
+
+
+<nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" href="#>Mis Plantas</a>
+  <button class="navbar-toggler p-0 border-0"
+    type="button"
+    data-toggle="offcanvas">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a class="nav-link  {{ 'app_favoritos' == app_ruta ? 'active' }}" href="{#{{path('app_favoritos')}}#}">
+        Favoritos
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link  {{ 'app_index' == app_ruta and nombre_categ is empty ? 'active' }}" href="{{path('app_index')}}">
+        Todas
+      </a>
+    </li>
+    
+ 
+    </ul>
+    <div class="d-md-flex my-2 my-lg-0">
+      <a class="btn btn-outline-success mr-2 w-100 mb-3 mb-sm-0" title="Gestión de categorias" href="{{path('app_usos')}}">
+        Usos
+      </a>
+      <a class="btn btn-outline-success mr-2 w-100 mb-3 mb-sm-0" title="Gestión de categorias" href="{{path('app_herbolario')}}">
+        Herbolarios
+      </a>
+      <a class="btn btn-outline-success mr-2 w-100" title="Añadir marcador" href="{#{{path('app_marcador_new')}}#}">
+        <span class="oi oi-plus" title="añadir" aria-hidden="true"></span>
+      </a>
+    </div>
+    <form class="form-inline">
+        <input class="form-control mr-sm-2"
+          type="text"
+          placeholder="Buscar"
+          aria-label="Search" />
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+          Buscar
+        </button>
+      </form>
+  </div>
+</nav>

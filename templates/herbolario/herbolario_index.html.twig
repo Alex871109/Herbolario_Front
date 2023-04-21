@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block contenedor_principal %}
+    {% include 'comunes/_mensajes.html.twig' %}
+
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Herbolario</th>
+      <th scope="col">URL</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% set contador=1 %}
+  {% for herbolario in  herbolarios  %}
+    <tr>
+      <th scope="row">{{contador}}</th>
+      <td>{{herbolario.nombre}}</td>
+      <td>{{herbolario.url}}</td>
+      <td>
+        <a href="{{path('app_editar_herbolario',{id:herbolario.id})}}" class="btn btn-link mg-3">
+            <span class="oi oi-pencil" title="Editar" aria-hidden="true"></span>
+        </a>
+      </td>
+            <td>
+        <form method="post" action="{{path('app_eliminar_herbolario',{id:herbolario.id})}}" onsubmit="return confirm('Seguro quiere eliminar este elemento?');">
+            <button class="btn btn-link mg-3">
+                <span class="oi oi-delete" title="Eliminar" aria-hidden="true"></span>
+            </button>
+        </form>
+      </td>
+    </tr>
+    {% set contador=contador+1 %}
+  {% endfor %}
+  </tbody>
+</table>
+
+    <div class="d-md-flex my-2 my-lg-0 justify-content-center">
+        <a class="btn btn-primary mr-2 w-10 mb-3 mb-sm-0" title="Gestión de usos" href="{{path('app_nuevo_herbolario')}}">
+            Nuevo
+        </a>
+    </div>
+
+{% endblock %}
+
+
+

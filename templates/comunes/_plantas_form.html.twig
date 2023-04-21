@@ -1,0 +1,120 @@
+<form class="form-control"  method="POST" >
+  <div class="mb-3">
+    <h1 class="form-label">Planta</h1>
+  </div>
+  <div class="mb-3">
+    <label for="nombre"  class="form-label">Nombre</label>
+    <input type="text" name="nombre" {% if accion %} value="{{planta.nombre}}" {% endif %}  class="form-control" >
+  </div>
+  <div class="mb-3">
+    <label for="especie"    class="form-label">Especie</label>
+    <input type="text" name="especie" {% if accion %} value="{{planta.especie}}" {% endif %}  class="form-control" >
+  </div>
+  <div class="mb-3">
+    <label for="lugar"    class="form-label">Lugar de Origen</label>
+    <input type="text" name="lugar" {% if accion %} value="{{planta.lugar}}" {% endif %}  class="form-control" >
+  </div>
+
+   <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Uso #1</th>
+      <th scope="col">Uso #2</th>
+      <th scope="col">Uso #3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <select name="uso1">
+          {% for uso in usos %}
+            <option name="uso1">{{uso.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+         <select name="uso2">
+          {% for uso in usos %}
+            <option name="uso2">{{uso.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+          <select name="uso3">
+          {% for uso in usos %}
+            <option name="uso3">{{uso.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Herbolario #1</th>
+      <th scope="col">Herbolario #2</th>
+      <th scope="col">Herbolario #3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+          <select name="herbolario1">
+          {% for herbolario in herbolarios %}
+            <option name="herbolario1">{{herbolario.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+          <select name="herbolario2">
+          {% for herbolario in herbolarios %}
+            <option name="herbolario2">{{herbolario.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+      <td>
+          <select name="herbolario3">
+          {% for herbolario in herbolarios %}
+            <option name="herbolario3">{{herbolario.nombre}}</option>
+          {% endfor %}
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+          <div class="mb-3">
+            <label for="herbolarionombre"  class="form-label">Precio</label>
+            <input type="text" name="precio1" value=""   class="form-control" >
+          </div>
+      </td>
+      <td>
+          <div class="mb-3">
+            <label for="herbolarionombre"  class="form-label">Precio</label>
+            <input type="text" name="precio2" value=""  class="form-control" >
+          </div>
+      </td>
+      <td>
+          <div class="mb-3">
+            <label for="herbolarionombre"  class="form-label">Precio</label>
+            <input type="text" name="precio3"  value=""   class="form-control" >
+          </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary " >
+      {% if accion %}      {#Cambio del texto del boton#}
+        Editar
+      {% else  %}
+        Añadir 
+      {% endif %} 
+    </button>
+  </div>
+
+
+
+</form>

@@ -1,0 +1,9 @@
+
+    {% for tipo, mensajes in app.flashes %}
+        {% for mensaje in mensajes%}
+            <div class="alert alert-{{tipo}} mt-3" >
+                {{ mensaje }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
