@@ -21,8 +21,8 @@ class HerbolarioController extends AbstractController
         
         $token = $_COOKIE['jwt_token'];
         $base_url = $params->get('app_baseurl');
-        $relative_url='api/herbolario/index';
-        $herbolarios=json_decode($frontManager->petition('GET',$base_url,$relative_url,$token),true);
+        $relative_url='api/usos/index';
+        $herbolarios=json_decode($frontManager->petition('GET',$base_url,'api/herbolario/index',$token),true);
         return $this->render('herbolario/herbolario_index.html.twig', [
             'herbolarios' => $herbolarios['herbolarios'],
         ]);

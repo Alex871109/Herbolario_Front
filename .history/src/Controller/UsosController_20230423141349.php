@@ -17,14 +17,11 @@ use function Symfony\Component\String\u;
 class UsosController extends AbstractController
 {
     #[Route('/usos', name: 'app_usos')]
-    public function index(FrontManager $frontManager, ParameterBagInterface $params): Response
+    public function index(FrontManager $frontManager, ParameterBagInterface ): Response
     {
-        $token = $_COOKIE['jwt_token'];
-        $base_url = $params->get('app_baseurl');
-        $relative_url='api/usos/index';
-        $usos=json_decode($frontManager->petition('GET',$base_url,$relative_url,$token),true);
+        $usos=$usosRepository->findAll();
         return $this->render('usos/usos_index.html.twig', [
-                'usos'=>$usos['usos'],
+                'usos'=>$usos,
         ]);
     }
 

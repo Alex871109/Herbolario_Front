@@ -21,10 +21,9 @@ class UsosController extends AbstractController
     {
         $token = $_COOKIE['jwt_token'];
         $base_url = $params->get('app_baseurl');
-        $relative_url='api/usos/index';
-        $usos=json_decode($frontManager->petition('GET',$base_url,$relative_url,$token),true);
+        $usos=json_decode($frontManager->petition('GET',$base_url,'api/usos/index',$token),true);
         return $this->render('usos/usos_index.html.twig', [
-                'usos'=>$usos['usos'],
+                'usos'=>$usos,
         ]);
     }
 
