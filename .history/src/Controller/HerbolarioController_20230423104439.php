@@ -7,23 +7,19 @@ use App\Repository\HerbolarioRepository;
 use App\Services\FrontManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class HerbolarioController extends AbstractController
 {
     #[Route('/herbolario', name: 'app_herbolario')]
-    public function index(FrontManager $frontManager,ParameterBagInterface $params): Response
+    public function index(FrontManager $frontManager): Response
     {
         
-        $token = $_COOKIE['jwt_token'];
-        $base_url = $params->get('app_baseurl');
-        $herbolarios=json_decode($frontManager->petition('GET',$base_url,'api/herbolario/index',$token),true);
+        $herbolarios=$frontManager->petition('GET',,'api/herbolario/index')
         return $this->render('herbolario/herbolario_index.html.twig', [
-            'herbolarios' => $herbolarios['herbolarios'],
+            'herbolarios' => $herbolarios,
         ]);
     }
 

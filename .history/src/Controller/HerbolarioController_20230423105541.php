@@ -11,7 +11,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
 
 class HerbolarioController extends AbstractController
 {
@@ -21,9 +20,12 @@ class HerbolarioController extends AbstractController
         
         $token = $_COOKIE['jwt_token'];
         $base_url = $params->get('app_baseurl');
-        $herbolarios=json_decode($frontManager->petition('GET',$base_url,'api/herbolario/index',$token),true);
+        $herbolarios_array=$frontManager->petition('GET',$base_url,'api/herbolario/index',$token);
+        $herbolarios=$herbolarios_array[herbolarios'];
+        dump($herbolarios);
+         die();
         return $this->render('herbolario/herbolario_index.html.twig', [
-            'herbolarios' => $herbolarios['herbolarios'],
+            'herbolarios' => $herbolarios[herbolarios],
         ]);
     }
 
