@@ -89,18 +89,17 @@ class UsosController extends AbstractController
     }
 
     #[Route('/usos/{id}/eliminar', name: 'app_usos_eliminar')]
-    public function eliminar(FrontManager $frontManager, Request $request,int $id): Response
+    public function eliminar(FrontManager $frontManager, Request $request): Response
     {
         if($request->getMethod()==='POST'){
             $token = $_COOKIE['jwt_token'];
-            $relative_url='api/usos/delete/'.$id;
-            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-            $response=$frontManager->petition('DELETE',$options,$relative_url);
-            if($response->getStatusCode() === 200) {
-                $this->addFlash('success', 'Uso eliminado correctamente');
-            } else {
-                $this->addFlash('danger', 'Hubo un error al eliminar el uso');
-            };
+            $relative_url='api/usos/delete/';
+            $relative_url='api/usos/delete/';
+            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],'json' => ['nombre' => $nombre,],];
+            $response=$frontManager->petition('POST',$options,$relative_url);
+            $response_data=json_decode($response->getBody()->getContents(),true);
+            $response_status=$response->getStatusCode();
+            $this->addFlash('success', 'Uso eliminado correctamente');
             return $this->redirectToRoute('app_usos');
         }
     }

@@ -31,31 +31,42 @@ class UsosController extends AbstractController
 
 
     #[Route('/usos/nuevo', name: 'app_nuevo_usos')]
-    public function nuevo(FrontManager $frontManager, Request $request): Response
+    public function nuevo(FrontManager $frontManager): Response
     {
+        // $usos= new Usos();
+        // if($request->getMethod()==='POST'){
+        // $nombre=$request->request->get('nombre'); 
+        // $nombre=trim($nombre);  
+        //     if($nombre!=""){
+        //         $usos->setNombre($nombre);
+        //         $entityManager->persist($usos);
+        //         $entityManager->flush();
+        //         $this->addFlash('success','Uso correctamente añadido');
+        //     }
+        //     else
+        //         $this->addFlash('danger','El Campo Uso no puede estar en blanco');
+
+        // return $this->redirectToRoute('app_usos');
+
+        // }
+
         if ($request->getMethod() === 'POST') {
             
             $nombre = $request->request->get('nombre'); 
             $nombre = trim($nombre);  
             if ($nombre !== '') {
                 $token = $_COOKIE['jwt_token'];
-                $relative_url='api/usos/new';
+                $relative_url='api/herbolario/index';
                 $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],'json' => ['nombre' => $nombre,],];
                 $response=$frontManager->petition('POST',$options,$relative_url);
-                $response_data=json_decode($response->getBody()->getContents(),true);
+                $response_data=$response->getBody()->getContents();
                 $response_status=$response->getStatusCode();
-
-                if($response_status===200 && $response_data['status']===200)
+                if($response_status===200 && $response_data['status']===200){
                     $this->addFlash('success', 'Uso correctamente añadido');
-            
-                else
-                    $this->addFlash('danger', 'Error al añadir uso');   
-
+                }
             }else {
                 $this->addFlash('danger', 'El Campo Uso no puede estar en blanco');
             }
-            return $this->redirectToRoute('app_usos');
-        }
         return $this->render('usos/usos_nuevo.html.twig', [
             'accion' => false,
         ]);
@@ -89,18 +100,12 @@ class UsosController extends AbstractController
     }
 
     #[Route('/usos/{id}/eliminar', name: 'app_usos_eliminar')]
-    public function eliminar(FrontManager $frontManager, Request $request,int $id): Response
+    public function eliminar(Usos $uso,UsosRepository $usosRepository,EntityManagerInterface $entityManager,Request $request): Response
     {
         if($request->getMethod()==='POST'){
-            $token = $_COOKIE['jwt_token'];
-            $relative_url='api/usos/delete/'.$id;
-            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-            $response=$frontManager->petition('DELETE',$options,$relative_url);
-            if($response->getStatusCode() === 200) {
-                $this->addFlash('success', 'Uso eliminado correctamente');
-            } else {
-                $this->addFlash('danger', 'Hubo un error al eliminar el uso');
-            };
+            $entityManager->remove($uso);
+            $entityManager->flush();
+            $this->addFlash('success', 'Uso eliminado correctamente');
             return $this->redirectToRoute('app_usos');
         }
     }

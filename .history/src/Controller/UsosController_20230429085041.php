@@ -89,18 +89,12 @@ class UsosController extends AbstractController
     }
 
     #[Route('/usos/{id}/eliminar', name: 'app_usos_eliminar')]
-    public function eliminar(FrontManager $frontManager, Request $request,int $id): Response
+    public function eliminar(Usos $uso,UsosRepository $usosRepository,EntityManagerInterface $entityManager,Request $request): Response
     {
         if($request->getMethod()==='POST'){
-            $token = $_COOKIE['jwt_token'];
-            $relative_url='api/usos/delete/'.$id;
-            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-            $response=$frontManager->petition('DELETE',$options,$relative_url);
-            if($response->getStatusCode() === 200) {
-                $this->addFlash('success', 'Uso eliminado correctamente');
-            } else {
-                $this->addFlash('danger', 'Hubo un error al eliminar el uso');
-            };
+            $entityManager->remove($uso);
+            $entityManager->flush();
+            $this->addFlash('success', 'Uso eliminado correctamente');
             return $this->redirectToRoute('app_usos');
         }
     }

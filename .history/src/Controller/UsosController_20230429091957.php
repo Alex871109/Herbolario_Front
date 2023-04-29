@@ -94,6 +94,8 @@ class UsosController extends AbstractController
         if($request->getMethod()==='POST'){
             $token = $_COOKIE['jwt_token'];
             $relative_url='api/usos/delete/'.$id;
+            // dump($relative_url);
+            // die();
             $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
             $response=$frontManager->petition('DELETE',$options,$relative_url);
             if($response->getStatusCode() === 200) {

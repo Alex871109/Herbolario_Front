@@ -94,13 +94,13 @@ class UsosController extends AbstractController
         if($request->getMethod()==='POST'){
             $token = $_COOKIE['jwt_token'];
             $relative_url='api/usos/delete/'.$id;
+            // dump($relative_url);
+            // die();
             $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-            $response=$frontManager->petition('DELETE',$options,$relative_url);
-            if($response->getStatusCode() === 200) {
-                $this->addFlash('success', 'Uso eliminado correctamente');
-            } else {
-                $this->addFlash('danger', 'Hubo un error al eliminar el uso');
-            };
+            $response=$frontManager->petition('PODELETE',$options,$relative_url);
+            $response_data=json_decode($response->getBody()->getContents(),true);
+            $response_status=$response->getStatusCode();
+            $this->addFlash('success', 'Uso eliminado correctamente');
             return $this->redirectToRoute('app_usos');
         }
     }
