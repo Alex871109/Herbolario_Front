@@ -76,7 +76,7 @@ class UsosController extends AbstractController
         
         if(isset($_COOKIE['jwt_token'])){
             $token = $_COOKIE['jwt_token'];
-            $relative_url='api/usos/edit_get/'.$id;
+            $relative_url='api/usos//edit_get/'.$id;
             if($request->getMethod()==='POST'){
                 $nombre=$request->request->get('nombre'); 
                 $nombre=u($nombre)->trim();
@@ -97,36 +97,28 @@ class UsosController extends AbstractController
             $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
             $response=$frontManager->petition('GET',$options,$relative_url);
             $uso=json_decode($response->getBody()->getContents());  
-            // dump($uso->uso);
-            // die();
             return $this->render('usos/usos_editar.html.twig', [
-                'uso' => $uso->uso,
+                'uso' => $uso,
                 'accion' => true,  // accion editar para que se modifique el boton del template, el del submit
             ]);
-        }
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
+            
     }
 
     #[Route('/usos/{id}/eliminar', name: 'app_usos_eliminar')]
     public function eliminar(FrontManager $frontManager, Request $request,int $id): Response
     {
-        if(isset($_COOKIE['jwt_token'])){   
-            if($request->getMethod()==='POST'){
-                $token = $_COOKIE['jwt_token'];
-                $relative_url='api/usos/delete/'.$id;
-                $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-                $response=$frontManager->petition('DELETE',$options,$relative_url);
-                if($response->getStatusCode() === 200) {
-                    $this->addFlash('success', 'Uso eliminado correctamente');
-                } else {
-                    $this->addFlash('danger', 'Hubo un error al eliminar el uso');
-                };
-                return $this->redirectToRoute('app_usos');
-            }
-        }    
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
+        if($request->getMethod()==='POST'){
+            $token = $_COOKIE['jwt_token'];
+            $relative_url='api/usos/delete/'.$id;
+            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
+            $response=$frontManager->petition('DELETE',$options,$relative_url);
+            if($response->getStatusCode() === 200) {
+                $this->addFlash('success', 'Uso eliminado correctamente');
+            } else {
+                $this->addFlash('danger', 'Hubo un error al eliminar el uso');
+            };
+            return $this->redirectToRoute('app_usos');
+        }
     }
 
 

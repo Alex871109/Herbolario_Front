@@ -1,0 +1,14 @@
+<form class="form-control"  method="POST" >
+  <div class="mb-3">
+    <h1>Usos</h1>
+      <input type="text" name="nombre"  {% if accion %} value="{{uso}}" {% endif %}   class="form-control" >
+  </div>
+
+  <button type="submit" class="btn btn-primary" >
+    {% if accion %}      {#Cambio del texto del boton#}
+      Editar
+    {% else  %}
+      Añadir 
+    {% endif %} 
+  </button>
+</form>

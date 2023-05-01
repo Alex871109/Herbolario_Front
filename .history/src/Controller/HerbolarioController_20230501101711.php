@@ -18,18 +18,15 @@ class HerbolarioController extends AbstractController
     #[Route('/herbolario', name: 'app_herbolario')]
     public function index(FrontManager $frontManager,ParameterBagInterface $params): Response
     {
-        if(isset($_COOKIE['jwt_token'])){
-            $token = $_COOKIE['jwt_token'];
-            $relative_url='api/herbolario/index';
-            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],]; 
-            $response=$frontManager->petition('GET',$options,$relative_url);
-            $herbolarios=json_decode($response->getBody()->getContents(),true);
-            return $this->render('herbolario/herbolario_index.html.twig', [
-                'herbolarios' => $herbolarios['herbolarios'],
-            ]);
-        }
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
+        if(isse)
+        $token = $_COOKIE['jwt_token'];
+        $relative_url='api/herbolario/index';
+        $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],]; 
+        $response=$frontManager->petition('GET',$options,$relative_url);
+        $herbolarios=json_decode($response->getBody()->getContents(),true);
+        return $this->render('herbolario/herbolario_index.html.twig', [
+            'herbolarios' => $herbolarios['herbolarios'],
+        ]);
     }
 
     #[Route('/herbolario/nuevo', name: 'app_nuevo_herbolario')]

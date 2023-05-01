@@ -100,7 +100,7 @@ class UsosController extends AbstractController
             // dump($uso->uso);
             // die();
             return $this->render('usos/usos_editar.html.twig', [
-                'uso' => $uso->uso,
+                'uso' => $uso->,
                 'accion' => true,  // accion editar para que se modifique el boton del template, el del submit
             ]);
         }

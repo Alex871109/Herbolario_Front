@@ -27,9 +27,6 @@ class HerbolarioController extends AbstractController
             return $this->render('herbolario/herbolario_index.html.twig', [
                 'herbolarios' => $herbolarios['herbolarios'],
             ]);
-        }
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
     }
 
     #[Route('/herbolario/nuevo', name: 'app_nuevo_herbolario')]

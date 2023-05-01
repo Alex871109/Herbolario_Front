@@ -76,7 +76,7 @@ class UsosController extends AbstractController
         
         if(isset($_COOKIE['jwt_token'])){
             $token = $_COOKIE['jwt_token'];
-            $relative_url='api/usos/edit_get/'.$id;
+            $relative_url='api/usos//edit_get/'.$id;
             if($request->getMethod()==='POST'){
                 $nombre=$request->request->get('nombre'); 
                 $nombre=u($nombre)->trim();
@@ -97,10 +97,8 @@ class UsosController extends AbstractController
             $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
             $response=$frontManager->petition('GET',$options,$relative_url);
             $uso=json_decode($response->getBody()->getContents());  
-            // dump($uso->uso);
-            // die();
             return $this->render('usos/usos_editar.html.twig', [
-                'uso' => $uso->uso,
+                'uso' => $uso,
                 'accion' => true,  // accion editar para que se modifique el boton del template, el del submit
             ]);
         }

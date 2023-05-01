@@ -28,7 +28,7 @@ class HerbolarioController extends AbstractController
                 'herbolarios' => $herbolarios['herbolarios'],
             ]);
         }
-        $this->addFlash('danger','Su sesion ha expirado');
+        $this->addFlash('danger','Su Secion ha expirado');
         return $this->redirectToRoute('logging_con_api');
     }
 

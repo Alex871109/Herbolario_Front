@@ -42,8 +42,6 @@ class IndexController extends AbstractController
                 'herbolarios'=>$herbolarios,
                 'pagination' => $pagination
             ]);
-        }
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
+        
     }
 }
