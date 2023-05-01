@@ -33,8 +33,28 @@ class HerbolarioController extends AbstractController
     }
 
     #[Route('/herbolario/nuevo', name: 'app_nuevo_herbolario')]
-    public function nuevo(Request $request, FrontManager $frontManager): Response
+    public function nuevo(Request $request, EntityManagerInterface $entityManager): Response
     {
+        // $herbolario= new Herbolario();
+        // if($request->getMethod()==='POST'){
+        //     $nombre=$request->request->get('nombre');
+        //     $url=$request->request->get('url'); 
+        //     $nombre=trim($nombre);
+        //     $url=trim($url);  
+        //         if($nombre!="" && $url!=""){
+        //             $herbolario->setNombre($nombre);
+        //             $herbolario->setUrl($url);
+        //             $entityManager->persist($herbolario);
+        //             $entityManager->flush();
+        //             $this->addFlash('success','Herbolario correctamente añadido');
+        //         }
+        //         else
+        //             $this->addFlash('danger','Los campos no pueden estar en blanco');
+
+        //     return $this->redirectToRoute('app_herbolario');
+
+        // }
+
         if ($request->getMethod() === 'POST') {
             if(isset($_COOKIE['jwt_token'])){
                 $nombre = $request->request->get('nombre'); 
@@ -44,21 +64,21 @@ class HerbolarioController extends AbstractController
                 if ($nombre !== ''&& $url!="") {
                     $token = $_COOKIE['jwt_token'];
                     $relative_url='api/herbolario/new';
-                    $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],'json' => ['nombre' => $nombre,'url' => $url],];
+                    $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],'json' => ['nombre' => $nombre,'url' ],];
                     $response=$frontManager->petition('POST',$options,$relative_url);
                     $response_data=json_decode($response->getBody()->getContents(),true);
                     $response_status=$response->getStatusCode();
 
                     if($response_status===200 && $response_data['status']===200)
-                        $this->addFlash('success', 'Herbolario correctamente añadido');
+                        $this->addFlash('success', 'Uso correctamente añadido');
                 
                     else
-                        $this->addFlash('danger', 'Error al añadir herbolario');   
+                        $this->addFlash('danger', 'Error al añadir uso');   
 
                 }else {
-                    $this->addFlash('danger', 'Los campos Uso y URL no pueden estar en blanco');
+                    $this->addFlash('danger', 'El Campo Uso no puede estar en blanco');
                 }
-                return $this->redirectToRoute('app_herbolario');
+                return $this->redirectToRoute('app_usos');
             }
 
             $this->addFlash('danger','Su sesion ha expirado');

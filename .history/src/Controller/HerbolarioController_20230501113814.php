@@ -35,6 +35,7 @@ class HerbolarioController extends AbstractController
     #[Route('/herbolario/nuevo', name: 'app_nuevo_herbolario')]
     public function nuevo(Request $request, FrontManager $frontManager): Response
     {
+
         if ($request->getMethod() === 'POST') {
             if(isset($_COOKIE['jwt_token'])){
                 $nombre = $request->request->get('nombre'); 

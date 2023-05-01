@@ -96,9 +96,9 @@ class UsosController extends AbstractController
             }
             $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
             $response=$frontManager->petition('GET',$options,$relative_url);
-            $uso=json_decode($response->getBody()->getContents(),true);  
+            $uso=json_decode($response->getBody()->getContents(),t);  
             return $this->render('usos/usos_editar.html.twig', [
-                'uso' => $uso['uso'],
+                'uso' => $uso->uso,
                 'accion' => true,  // accion editar para que se modifique el boton del template, el del submit
             ]);
         }
