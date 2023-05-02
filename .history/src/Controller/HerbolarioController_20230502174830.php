@@ -94,37 +94,26 @@ class HerbolarioController extends AbstractController
 
                 return $this->redirectToRoute('app_herbolario');
             }
-            $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-            $response=$frontManager->petition('GET',$options,$relative_url);
-            $herbolario=json_decode($response->getBody()->getContents(),true); 
-            return $this->render('herbolario/herbolario_editar.html.twig', [
-                'accion'=>true,
-                'herbolario'=>$herbolario['herbolario'],
-            ]);
-        }
         $this->addFlash('danger','Su sesion ha expirado');
         return $this->redirectToRoute('logging_con_api');
+    
+
+        return $this->render('herbolario/herbolario_editar.html.twig', [
+            'accion'=>true,
+            'herbolario'=>$herbolario,
+        ]);
     }
 
     #[Route('/herbolario/{id}/eliminar',name:'app_eliminar_herbolario')]
-    public function eliminar(int $id,Request $request,FrontManager $frontManager): Response
+    public function eliminar(Herbolario $herbolario,Request $request,EntityManagerInterface $entityManager): Response
     {
-        if(isset($_COOKIE['jwt_token'])){   
-            if($request->getMethod()==='POST'){
-                $token = $_COOKIE['jwt_token'];
-                $relative_url='api/herbolario/delete/'.$id;
-                $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
-                $response=$frontManager->petition('DELETE',$options,$relative_url);
-                if($response->getStatusCode() === 200) {
-                    $this->addFlash('success', 'herbolario eliminado correctamente');
-                } else {
-                    $this->addFlash('danger', 'Hubo un error al eliminar el Herbolario');
-                };
-                return $this->redirectToRoute('app_herbolario');
-            }
-        }    
-        $this->addFlash('danger','Su sesion ha expirado');
-        return $this->redirectToRoute('logging_con_api');
+        if($request->getMethod()==='POST'){
+            $entityManager->remove($herbolario);
+            $entityManager->flush();
+            $this->addFlash('success','Herbolario correctamente eliminado');
+            return $this->redirectToRoute('app_herbolario');
+
+        }
      
     }
 

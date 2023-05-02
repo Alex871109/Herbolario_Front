@@ -116,11 +116,11 @@ class HerbolarioController extends AbstractController
                 $options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],];
                 $response=$frontManager->petition('DELETE',$options,$relative_url);
                 if($response->getStatusCode() === 200) {
-                    $this->addFlash('success', 'herbolario eliminado correctamente');
+                    $this->addFlash('success', 'herbola eliminado correctamente');
                 } else {
-                    $this->addFlash('danger', 'Hubo un error al eliminar el Herbolario');
+                    $this->addFlash('danger', 'Hubo un error al eliminar el uso');
                 };
-                return $this->redirectToRoute('app_herbolario');
+                return $this->redirectToRoute('app_usos');
             }
         }    
         $this->addFlash('danger','Su sesion ha expirado');

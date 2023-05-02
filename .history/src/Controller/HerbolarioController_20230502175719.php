@@ -118,9 +118,9 @@ class HerbolarioController extends AbstractController
                 if($response->getStatusCode() === 200) {
                     $this->addFlash('success', 'herbolario eliminado correctamente');
                 } else {
-                    $this->addFlash('danger', 'Hubo un error al eliminar el Herbolario');
+                    $this->addFlash('danger', 'Hubo un error al eliminar el uso');
                 };
-                return $this->redirectToRoute('app_herbolario');
+                return $this->redirectToRoute('app_usos');
             }
         }    
         $this->addFlash('danger','Su sesion ha expirado');
