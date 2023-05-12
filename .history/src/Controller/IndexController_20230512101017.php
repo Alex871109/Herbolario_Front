@@ -17,6 +17,7 @@ class IndexController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(PaginatorInterface $paginator, Request $request, FrontManager $front_manager, ParameterBagInterface $params): Response
     {
+        // documenta este codigo
 
         if (isset($_COOKIE['jwt_token'])) {
             $token = $_COOKIE['jwt_token'];

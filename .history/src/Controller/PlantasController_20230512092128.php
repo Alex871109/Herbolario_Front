@@ -53,24 +53,24 @@ class PlantasController extends AbstractController
                 // Obtener la lista de usos de la API
                 $usos_index_relativeurl='api/usos/index';
                 $usos=$frontManager->petition('GET',$usos_index_options,$usos_index_relativeurl);
-                // Obtener los usos, herbolarios y precios del formulario
+                
                 for($i=1;$i<4;$i++){
                     $nombre_uso[$i]=$request->request->get('uso'.$i);
                     $nombre_herbolario[$i]=$request->request->get('herbolario'.$i);
                     $precio[$i]=$request->request->get('precio'.$i);
                 }
-                // Verificar que todos los campos del formulario estén completos
+
                 if(!$planta_nombre || !$planta_especie || !$planta_lugar || !$precio[1] || !$precio[2] || !$precio[3]){
                     $this->addFlash('danger', 'Complete todos los campos ');
                     return $this->redirectToRoute('app_plantas_nueva');
                 }
-                // Verificar si la planta ya está registrada
+
                 if($planta_find_response_content['status']===200){
                     $this->addFlash('danger', "La planta '$planta_nombre' ya esta registrada");
                     return $this->redirectToRoute('app_plantas_nueva');
 
                 }
-                // Verificar que los usos y herbolarios no se repitan
+
                 if($nombre_uso[1]===$nombre_uso[2]||$nombre_uso[1]===$nombre_uso[3]||$nombre_uso[2]===$nombre_uso[3]){
                     $this->addFlash('danger', 'No pueden repetirse Usos en la misma planta');
                     return $this->redirectToRoute('app_plantas_nueva');
@@ -78,7 +78,6 @@ class PlantasController extends AbstractController
                     $this->addFlash('danger', 'No pueden repetirse Herbolarios en la misma planta');
                     return $this->redirectToRoute('app_plantas_nueva');
                 }
-                // Configurar las opciones para las solicitudes HTTP a la API, incluyendo el token de autenticación
                 $planta_new_relativeurl='api/planta/new';
                 $usos_planta = [];
                 $herbolarios_planta = [];
@@ -87,7 +86,7 @@ class PlantasController extends AbstractController
                     $herbolarios_planta[] = array('nombre' => $nombre_herbolario[$i], 'precio' => $precio[$i]);
                 }
                      
-                // Configurar las opciones para las solicitudes HTTP a la API, incluyendo el token de autenticación
+
                 $planta_new_options=['headers' => ['Authorization' => 'Bearer '.$token, 'Accept'        => 'application/json'],
                                     'json' => ['nombre' => $planta_nombre,
                                                'especie'=>$planta_especie,

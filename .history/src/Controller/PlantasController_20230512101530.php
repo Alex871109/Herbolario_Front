@@ -59,12 +59,12 @@ class PlantasController extends AbstractController
                     $nombre_herbolario[$i]=$request->request->get('herbolario'.$i);
                     $precio[$i]=$request->request->get('precio'.$i);
                 }
-                // Verificar que todos los campos del formulario estén completos
+
                 if(!$planta_nombre || !$planta_especie || !$planta_lugar || !$precio[1] || !$precio[2] || !$precio[3]){
                     $this->addFlash('danger', 'Complete todos los campos ');
                     return $this->redirectToRoute('app_plantas_nueva');
                 }
-                // Verificar si la planta ya está registrada
+
                 if($planta_find_response_content['status']===200){
                     $this->addFlash('danger', "La planta '$planta_nombre' ya esta registrada");
                     return $this->redirectToRoute('app_plantas_nueva');
